@@ -1,0 +1,75 @@
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'bintray-release'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.8
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        //noinspection GradleDependency
+        classpath 'com.novoda:bintray-release:0.9.1'
+    }
+}
+repositories {
+    google()
+    jcenter()
+}
+
+dependencies {
+
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:3.5.3'
+}
+
+group 'me.foolishchow.android'
+def _groupId = 'me.foolishchow.android'
+def _artifactId = 'multi-module'
+def _version = '0.0.8'
+
+//添加
+publish {
+    repoName = "android"
+    artifactId = _artifactId
+    userOrg = 'foolishchow'
+    groupId = _groupId
+    //uploadName = rootProject.uploadName
+    publishVersion = _version
+    desc = "android MultiModule  "
+    website = "https://github.com/foolishchow/MultiModule.git"
+}
+
+def localReleaseDest = "${buildDir}/release/${_version}"
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId = _groupId
+            pom.artifactId = _artifactId
+            pom.version = _version
+            // Add other pom properties here if you want (developer details / licenses)
+            repository(url: "file://${localReleaseDest}")
+        }
+    }
+}
+
+
+task zipRelease(type: Zip) {
+    from localReleaseDest
+    destinationDir buildDir
+    archiveName "release-${_version}.zip"
+}
+
+task generateRelease {
+    doLast {
+        println "Release ${_version} can be found at ${localReleaseDest}/"
+        println "Release ${_version} zipped can be found ${buildDir}/release-${_version}.zip"
+    }
+}
+
+generateRelease.dependsOn(uploadArchives)
+generateRelease.dependsOn(zipRelease)

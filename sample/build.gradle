@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'multi-module'
 
 
-multiModule {
+pins {
     include("m_base")
 }
 

@@ -113,20 +113,20 @@ open class MultiModulePluginExtension(
 
             println("")
             println("")
-            android.sourceSets.forEach {
-                println(it.name)
-                println(it.java.srcDirs)
-            }
-            println("")
-            println("")
 
-            val sourceSet = android.sourceSets.maybeCreate("main")
+
             mModules.forEach { module ->
                 addSourceSet(module, variantName)
                 //sourceSet.java.srcDir("$module/src/main/java")
                 //sourceSet.res.srcDir("$module/src/main/res")
             }
 
+            android.sourceSets.forEach {
+                println(it.name)
+                println(it.java.srcDirs)
+            }
+            println("")
+            println("")
         }
     }
 
@@ -154,20 +154,20 @@ open class MultiModulePluginExtension(
                     module,
                     "androidTest${variant.capitalize()}Debug")
 
-            addSrc(android.sourceSets.maybeCreate(variant), module, variant)
-            addSrc(android.sourceSets.maybeCreate("${variant}Debug"), module, "${variant}Debug")
-            addSrc(android.sourceSets.maybeCreate("${variant}Release"), module, "${variant}Release")
+            addSrc(android.sourceSets.findByName(variant), module, variant)
+            addSrc(android.sourceSets.findByName("${variant}Debug"), module, "${variant}Debug")
+            addSrc(android.sourceSets.findByName("${variant}Release"), module, "${variant}Release")
 
 
-            addSrc(android.sourceSets.maybeCreate("test${variant.capitalize()}"),
+            addSrc(android.sourceSets.findByName("test${variant.capitalize()}"),
                     module,
                     "test${variant.capitalize()}")
 
-            addSrc(android.sourceSets.maybeCreate("test${variant.capitalize()}Debug"),
+            addSrc(android.sourceSets.findByName("test${variant.capitalize()}Debug"),
                     module,
                     "test${variant.capitalize()}Debug")
 
-            addSrc(android.sourceSets.maybeCreate("test${variant.capitalize()}Release"),
+            addSrc(android.sourceSets.findByName("test${variant.capitalize()}Release"),
                     module,
                     "test${variant.capitalize()}Release")
         }
@@ -190,7 +190,7 @@ class Plugin : org.gradle.api.Plugin<Project> {
     override fun apply(project: Project) {
 
         project.extensions.create(
-                IMultiModulePluginExtension::class.java, "multiModule",
+                IMultiModulePluginExtension::class.java, "pins",
                 MultiModulePluginExtension::class.java, project
         )
 

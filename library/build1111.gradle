@@ -1,0 +1,77 @@
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.8
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        //noinspection GradleDependency
+        classpath 'com.novoda:bintray-release:0.9.1'
+    }
+}
+repositories {
+    google()
+    jcenter()
+}
+
+dependencies {
+
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:3.5.3'
+
+}
+
+
+sourceSets{
+    main{
+        groovy {
+            srcDir "src/main/groovy"
+        }
+
+        java {
+            srcDir "src/main/kotlin"
+            srcDir "src/main/java"
+        }
+    }
+}
+group 'me.foolishchow.android'
+def _groupId = 'me.foolishchow.android'
+def _artifactId = 'multi-module'
+def _version = '0.0.8'
+
+def localReleaseDest = "${buildDir}/release"
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId = 'me.foolishchow.android'
+            pom.artifactId = 'multi-module-test'
+            pom.version = '0.0.1'
+            // Add other pom properties here if you want (developer details / licenses)
+            repository(url: uri(localReleaseDest))
+        }
+    }
+}
+
+
+
+//task zipRelease(type: Zip) {
+//    from localReleaseDest
+//    destinationDir buildDir
+//    archiveName "release-${_version}.zip"
+//}
+//
+//task generateRelease {
+//    doLast {
+//        println "Release ${_version} can be found at ${localReleaseDest}/"
+//        println "Release ${_version} zipped can be found ${buildDir}/release-${_version}.zip"
+//    }
+//}
+//
+//generateRelease.dependsOn(uploadArchives)
+//generateRelease.dependsOn(zipRelease)

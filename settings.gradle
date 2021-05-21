@@ -1,6 +1,4 @@
 include ':sample'
 include ':library'
+
 rootProject.name = "MultiModule"
-if(file('library').exists()) {
-    includeBuild 'library'
-}

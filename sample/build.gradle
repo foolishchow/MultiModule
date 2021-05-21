@@ -1,9 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'multi-module'
 
-pins{
+
+multiModule {
     include("m_base")
 }
+
 
 android {
     compileSdkVersion 30
@@ -25,7 +27,30 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "module","store"//,"place"
+    productFlavors {
+    //    mainland{
+    //        dimension "place"
+    //    }
+    //    outland{
+    //        dimension "place"
+    //    }
+        mi {
+            dimension "store"
+        }
+        apple {
+            dimension "store"
+        }
+        user {
+            dimension "module"
+        }
+        efficiency {
+            dimension "module"
+        }
+    }
 }
+
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -36,3 +61,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 }
+

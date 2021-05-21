@@ -10,8 +10,8 @@ import me.foolishchow.android.multimodule.dependence.DefaultDependenceExtension
 import me.foolishchow.android.multimodule.dependence.IDependenceExtension
 import me.foolishchow.android.multimodule.mutilmodule.IMultiModulePluginExtension
 import me.foolishchow.android.multimodule.mutilmodule.MultiModulePluginExtension
-import me.foolishchow.android.multimodule.mutilmodule.OnModuleIncludeListener
 import me.foolishchow.android.multimodule.mutilmodule.ProductFlavorInfo
+import me.foolishchow.android.plugin.multimodule.OnModuleIncludeListener
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
